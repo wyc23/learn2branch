@@ -247,6 +247,7 @@ def generate_setcover(nrows, ncols, density, filename, rng, max_coef=100):
 
         file.write("\nbinary\n")
         file.write("".join([f" x{j+1}" for j in range(ncols)]))
+        file.write("\nend\n")
 
 
 def generate_cauctions(random, filename, n_items=100, n_bids=500, min_value=1, max_value=100,
@@ -438,9 +439,10 @@ def generate_cauctions(random, filename, n_items=100, n_bids=500, min_value=1, m
         file.write("\nbinary\n")
         for i in range(len(bids)):
             file.write(f" x{i+1}")
+        file.write("\nend\n")
 
 
-def generate_capacited_facility_location(random, filename, n_customers, n_facilities, ratio):
+def generate_capacited_facility_location(rng, filename, n_customers, n_facilities, ratio):
     """
     Generate a Capacited Facility Location problem following
         Cornuejols G, Sridharan R, Thizy J-M (1991)
@@ -503,7 +505,7 @@ def generate_capacited_facility_location(random, filename, n_customers, n_facili
         file.write("total_capacity:" + "".join([f" -{capacities[j]} y_{j+1}" for j in range(n_facilities)]) + f" <= -{total_demand}\n")
         for i in range(n_customers):
             for j in range(n_facilities):
-                file.write(f"affectation_{i+1}_{j+1}: +1 x_{i+1}_{j+1} -1 y_{j+1} <= 0")
+                file.write(f"affectation_{i+1}_{j+1}: +1 x_{i+1}_{j+1} -1 y_{j+1} <= 0\n")
 
         file.write("\nbounds\n")
         for i in range(n_customers):
@@ -512,7 +514,7 @@ def generate_capacited_facility_location(random, filename, n_customers, n_facili
 
         file.write("\nbinary\n")
         file.write("".join([f" y_{j+1}" for j in range(n_facilities)]))
-
+        file.write("\nend\n")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
